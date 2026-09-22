@@ -275,7 +275,7 @@ Run exactly one beat container. The worker scales; beat does not, and two beats 
 docker compose exec web python manage.py test
 ```
 
-Five tests, run against Postgres rather than SQLite — the transaction semantics this project relies on differ between them.
+Four test classes, five tests, run against Postgres rather than SQLite — the transaction semantics this project relies on differ between them.
 
 | Test | Asserts |
 | --- | --- |
