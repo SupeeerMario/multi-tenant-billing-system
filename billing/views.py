@@ -9,6 +9,7 @@ from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_sche
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.exceptions import NotFound
 
 from . import exceptions, models, serializers, services
 
@@ -192,4 +193,38 @@ class InvoicesPay(APIView):
 
 
         return Response(invoice_dict, status= invoice_dict_status)
-    
+
+
+class TenantMeView(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = serializers.TenantMeSerializer
+
+    def get_object(self):
+        return self.request.tenant
+
+
+class CurrentSubscriptionView(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = serializers.CurrentSubscriptionSerializer
+
+    def get_object(self):
+        try:
+            return models.Subscription.objects.select_related('plan').get(tenant = self.request.tenant, status = 'ACTIVE')
+        except models.Subscription.DoesNotExist:
+            raise NotFound('No active subscription')
+
+
+@extend_schema(parameters = [
+    OpenApiParameter(name = 'status', type = OpenApiTypes.STR, location = OpenApiParameter.QUERY,
+                     required = False, description = 'Filter by status, e.g. OPEN'),
+])
+class InvoiceListView(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = serializers.InvoiceSerializer
+
+    def get_queryset(self):
+        qs = models.Invoice.objects.filter(tenant = self.request.tenant).order_by('-created_at', '-id')
+        status_filter = self.request.query_params.get('status')
+        if status_filter:
+            qs = qs.filter(status = status_filter.upper())
+        return qs

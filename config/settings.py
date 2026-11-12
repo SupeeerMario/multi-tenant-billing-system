@@ -167,4 +167,9 @@ SPECTACULAR_SETTINGS = {
     'SWAGGER_UI_DIST': 'SIDECAR',
     'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
     'REDOC_DIST': 'SIDECAR',
+    'ENUM_NAME_OVERRIDES': {
+        'SubscriptionStatusEnum': 'billing.models.Subscription.SUBSCRIPTIONS_CHOICES',
+        'InvoiceStatusEnum': 'billing.models.Invoice.INVOICES_CHOICES',
+    },
+
 }

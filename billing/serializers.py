@@ -119,3 +119,15 @@ class InvoiceSerializer(serializers.ModelSerializer):
 
 class PaymentSerializer(serializers.Serializer):
     amount = serializers.DecimalField(max_digits=12, decimal_places=2)
+
+class TenantMeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Tenant
+        fields = ['id', 'name', 'is_active']
+
+class CurrentSubscriptionSerializer(serializers.ModelSerializer):
+    plan = PlanSerializer(read_only = True)
+
+    class Meta:
+        model = models.Subscription
+        fields = ['id', 'status', 'current_period_start', 'current_period_end', 'plan']

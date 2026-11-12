@@ -9,4 +9,7 @@ urlpatterns = [
     path('usage/', views.UsageEventListCreateView.as_view(), name = 'usage'),
     path('invoices/generate/', views.InvoiceAPIView.as_view(), name = 'generate_invoices'),
     path('invoices/<int:pk>/pay/', views.InvoicesPay.as_view(), name = 'pay_invoice'),
+    path('tenants/me/', views.TenantMeView.as_view(), name = 'tenant_me'),
+    path('subscriptions/current/', views.CurrentSubscriptionView.as_view(), name = 'current_subscription'),
+    path('invoices/', views.InvoiceListView.as_view(), name = 'list_invoices'),
 ]
