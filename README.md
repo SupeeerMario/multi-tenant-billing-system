@@ -4,7 +4,7 @@ A billing API built with Django and DRF. It charges companies on a monthly cycle
 
 Every movement of money is recorded as a double-entry ledger pair, and payments are made idempotent by a database constraint rather than an application-level check.
 
-**Live:** https://multi-tenant-billing-app.duckdns.org/api/docs/
+**Live:** https://multi-tenant-billing-app.duckdns.org/8090
 
 > [!NOTE]
 > The live instance is a demo. API keys are stored in plaintext and the tenant/plan creation endpoints are open. Each is a deliberate simplification, not an oversight.
